@@ -1,5 +1,6 @@
 {
-  "name": "nft-minter",
+  "homepage": "http://nftmintingdemo.github.io/nftmintingdemo",
+  "name": "nftmintingdemo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -45,4 +46,5 @@
     "gh-pages": "^3.2.3"
   },
   "homepage": "."
+  }
 }
