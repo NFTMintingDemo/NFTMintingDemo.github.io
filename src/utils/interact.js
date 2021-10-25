@@ -120,4 +120,16 @@ export const mintNFT = async() => {
       status: "😥 Something went wrong: " + error.message
     }
   }
- }
+};
+
+export const getTokenSupply = async() => {
+  const contract = await new web3.eth.Contract(contractABI, contractAddress);
+
+  contract.methods.totalSupply().call(function (err, res) {
+    if (err) {
+      console.log("An error occured: ", err)
+      return
+    }
+    console.log("Total token supply: ", res)
+  })
+}
