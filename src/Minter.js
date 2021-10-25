@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { connectWallet, getCurrentWalletConnected, mintNFT } from "./utils/interact.js";
 import { Box, Button, Flex, Heading, Text, TextField, Title } from "gestalt";
 import Particles from 'react-particles-js';
 import { connectWallet, getCurrentWalletConnected, mintNFT, getTokenSupply } from "./utils/interact.js";
