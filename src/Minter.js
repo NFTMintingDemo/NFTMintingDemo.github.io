@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { connectWallet, getCurrentWalletConnected, mintNFT } from "./utils/interact.js";
 import { Box, Button, Flex, Heading, Text, TextField, Title } from "gestalt";
 import Particles from 'react-particles-js';
-
+import { connectWallet, getCurrentWalletConnected, mintNFT, getTokenSupply } from "./utils/interact.js";
 
 const Minter = (props) => {
 
@@ -13,6 +13,8 @@ const Minter = (props) => {
   const [description, setDescription] = useState("");
   const [url, setURL] = useState("");
   const [value, setValue] = useState(1);
+  const [supply, setSupply] = useState("");
+
  
   useEffect(async () => { 
     const {address, status} = await getCurrentWalletConnected();
@@ -20,6 +22,7 @@ const Minter = (props) => {
     setStatus(status);
 
     addWalletListener();
+    setSupply(getTokenSupply());
   }, []);
 
   const connectWalletPressed = async () => { 
