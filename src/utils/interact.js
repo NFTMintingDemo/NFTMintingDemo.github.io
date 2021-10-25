@@ -8,8 +8,8 @@ const contractAddress = "0x94463B828225c8Aca905dC26207d2a8dAB6d3090"
 
 //0.1 Ether
 const price = "0x2386F26FC10000";
-//300000 Gwei (0.0003 Ether)
-const gasLimit = "0x7A120";
+//3000000 Gwei (0.003 Ether)
+const gasLimit = "0x2DC6C0";
 
 export const connectWallet = async () => {
   if (window.ethereum) {
