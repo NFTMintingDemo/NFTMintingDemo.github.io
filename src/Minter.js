@@ -6,9 +6,8 @@ const Minter = (props) => {
   //State variables
   const [walletAddress, setWallet] = useState("");
   const [status, setStatus] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [url, setURL] = useState("");
+  const [supply, setSupply] = useState("");
+
  
   useEffect(async () => { 
     const {address, status} = await getCurrentWalletConnected();
@@ -16,7 +15,7 @@ const Minter = (props) => {
     setStatus(status);
 
     addWalletListener();
-    getTokenSupply();
+    setSupply(getTokenSupply());
   }, []);
 
   const connectWalletPressed = async () => { 

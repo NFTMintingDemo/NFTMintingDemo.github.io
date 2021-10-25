@@ -128,8 +128,8 @@ export const getTokenSupply = async() => {
   contract.methods.totalSupply().call(function (err, res) {
     if (err) {
       console.log("An error occured: ", err)
-      return
+      return 0;
     }
-    console.log("Total token supply: ", res)
+    return res;
   })
-}
+};
