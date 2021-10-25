@@ -1,12 +1,12 @@
+import React from 'react';
 import './App.css';
 import 'gestalt/dist/gestalt.css';
-import Minter from './Minter'
-import Particles from 'react-particles-js';
+import Minter from './Minter';
 
 function App() {
   return (
     <div className="App">
-      <Minter></Minter>
+      <Minter />
     </div>
   );
 }
