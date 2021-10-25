@@ -44,5 +44,5 @@
     "dotenv": "^8.6.0",
     "gh-pages": "^3.2.3"
   },
-  "homepage": "http://NFTMintingDemo.github.io/NFTMintingDemo"
+  "homepage": "."
 }
