@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { DAppProvider } from "@usedapp/core";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <DAppProvider config={{}}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </DAppProvider>,
   document.getElementById('root'),
 );
 

@@ -1,3 +1,5 @@
+import { Link, Text } from 'gestalt';
+
 require('dotenv').config();
 const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
 const {createAlchemyWeb3 } = require("@alch/alchemy-web3");
@@ -36,7 +38,7 @@ export const connectWallet = async () => {
           <p>
             {" "}
             🦊{" "}
-            <a target="_blank" href={`https://metamask.io/download.html`}>
+            <a target="_blank" href={`https://metamask.io/download.html`} rel="noreferrer">
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </a>
@@ -78,7 +80,7 @@ export const getCurrentWalletConnected = async () => {
           <p>
             {" "}
             🦊{" "}
-            <a target="_blank" href={`https://metamask.io/download.html`}>
+            <a target="_blank" href={`https://metamask.io/download.html`} rel="noreferrer">
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </a>
@@ -112,12 +114,28 @@ export const mintNFT = async() => {
     });
     return {
       success: true,
-      status: "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" + txHash
+      status: (
+        <>
+        Check out your {' '}
+        <Text inline weight="bold">
+          <Link weight="bold" inline target="blank" href={`https://ropsten.etherscan.io/tx/${txHash}`}>
+            transaction
+          </Link>
+        </Text>
+        {' '} on Etherscan.
+        </>
+      ),
+      title: "Your token was minted!"
     }
   } catch (error) {
     return {
       success: false,
-      status: "😥 Something went wrong: " + error.message
+      status: (
+        <Text color="white">
+          {error.message}
+        </Text>
+      ),
+      title: "Something went wrong"
     }
   }
 };

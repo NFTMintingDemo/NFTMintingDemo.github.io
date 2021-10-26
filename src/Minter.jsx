@@ -1,38 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Button, Flex, Heading, Text, TextField,
+  Box, Button, Flex, Heading, Link, Text, Toast as GestaltToast, TextField,
 } from 'gestalt';
 import Particles from 'react-particles-js';
 import {
-  connectWallet, getCurrentWalletConnected, mintNFT, getTokenSupply,
+ mintNFT, 
+ getTokenSupply,
 } from './utils/interact';
 import PARTICLE_PARAMS from './utils/constants';
+import ConnectButton from "./components/ConnectButton";
+import AccountModal from "./components/AccountModal";
+import { useToast } from "@chakra-ui/react";
+
 
 const Minter = () => {
-  // State variables
-  const [walletAddress, setWallet] = useState('');
-  const [status, setStatus] = useState('');
   const [value] = useState(1);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const toast = useToast();
+
+  const handlePopoverClose = () => setIsPopoverOpen(false);
+  const handlePopoverOpen = () => setIsPopoverOpen(true);
   const [supply, setSupply] = useState('');
 
-  useEffect(async () => {
-    const { address, status } = await getCurrentWalletConnected();
-    setWallet(address);
-    setStatus(status);
+  useEffect(() => {
+    // const { address, status } = await getCurrentWalletConnected();
+    // setWallet(address);
+    // setStatus(status);
 
     addWalletListener();
-    setSupply(getTokenSupply());
+    const fetchTokenSupply = async() => {
+      setSupply(await getTokenSupply());
+    }
+    fetchTokenSupply();
   }, []);
 
-  const connectWalletPressed = async () => {
-    const walletResponse = await connectWallet();
-    setStatus(walletResponse.status);
-    setWallet(walletResponse.address);
-  };
-
   const onMintPressed = async () => {
-    const { status } = await mintNFT();
-    setStatus(status);
+    const { status, success, title} = await mintNFT();
+    toast({
+      // title: title || "",
+      // description: status,
+      render: () => (
+        <GestaltToast 
+          text={
+            <>
+            <Text align="center" weight="bold" color={success ? "green": "white"}>{title}</Text>
+            {status}
+            </>
+          } 
+          variant={success ? "default": "error"}  
+        />
+      ),
+      // status: success ? "success": "error",
+      isClosable: true,
+      duration: 30000,
+    })
   };
 
   const noop = () => {};
@@ -42,25 +63,17 @@ const Minter = () => {
       window.ethereum.on('accountsChanged', (accounts) => {
         console.log(accounts);
         if (accounts.length > 0) {
-          setWallet(accounts[0]);
-          setStatus('🦊 Wallet connected.');
         } else {
-          setWallet('');
-          setStatus('🦊 Connect to Metamask using the top right button.');
         }
       });
     } else {
-      setStatus(
-        <Text>
-          {' '}
-          🦊
-          {' '}
-          <a target="_blank" href="https://metamask.io/download.html" rel="noreferrer">
-            You must install Metamask, a virtual Ethereum wallet, in your
-            browser.
-          </a>
-        </Text>,
-      );
+      toast({
+        title: "Connection issue.",
+        description: "Metamask not installed",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      })
     }
   }
 
@@ -73,41 +86,25 @@ const Minter = () => {
           </Flex.Item>
           <Flex.Item flex="grow" />
           <Flex.Item>
-            <Button
-              id="walletButton"
-              onClick={connectWalletPressed}
-              text={
-              walletAddress.length > 0 ? (
-                `Connected: ${
-                  String(walletAddress).substring(0, 6)
-                }...${
-                  String(walletAddress).substring(38)}`
-              ) : (
-                <Text>Connect Wallet</Text>
-              )
-}
-            />
+            <Box paddingX={10}>
+              <ConnectButton handlePopoverOpen={handlePopoverOpen}/>
+              <AccountModal isPopoverOpen={isPopoverOpen} onPopoverClose={handlePopoverClose}/>
+            </Box>
           </Flex.Item>
         </Flex>
         <Box paddingY={4}>
           <Flex gap={4} justifyContent="center" alignItems="start">
             <Heading size="lg" color="orchid">
               wow
+              {/* {supply} */}
             </Heading>
           </Flex>
         </Box>
         <Box paddingY={4}>
           <Flex gap={4} justifyContent="center" alignItems="start">
-            <TextField disabled type="number" id="amountToMintTextField" onChange={({ value }) => noop} value={value} />
+            <TextField disabled type="number" id="amountToMintTextField" onChange={noop} value={value} />
             <Button id="mintButton" color="gray" onClick={onMintPressed} text="Mint NFT" />
           </Flex>
-          <Box paddingY={4}>
-            <Flex justifyContent="center" alignItems="start">
-              <Text size="lg" color="lightGray">
-                {status}
-              </Text>
-            </Flex>
-          </Box>
         </Box>
       </Box>
       <Particles
