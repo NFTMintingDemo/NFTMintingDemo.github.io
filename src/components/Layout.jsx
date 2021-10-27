@@ -1,19 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Box, Button, Flex, Heading, Text, TextField } from 'gestalt'
+import { useToast } from '@chakra-ui/react'
+import { Box, Text } from 'gestalt'
 import Particles from 'react-particles-js'
+
 import { mintNFT, getTokenSupply } from 'utils/interact'
 import PARTICLE_PARAMS from 'utils/constants'
-import ConnectButton from './ConnectButton'
-import AccountPopover from './AccountPopover'
-import { useToast } from '@chakra-ui/react'
+import Header from './Header'
+import Landing from './Landing'
 
 const Layout = () => {
 	const [value] = useState(1)
-	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 	const toast = useToast()
 
-	const handlePopoverClose = () => setIsPopoverOpen(false)
-	const handlePopoverOpen = () => setIsPopoverOpen(true)
 	const [supply, setSupply] = useState('')
 
 	const onAccountChange = useCallback(() => {
@@ -98,51 +96,13 @@ const Layout = () => {
 		})
 	}
 
-	const noop = () => {}
-
 	return (
 		<>
-			<Box className="Layout" padding={4}>
-				<Flex justifyContent="end">
-					<Flex.Item>
-						<Heading color="lightGray">project name</Heading>
-					</Flex.Item>
-					<Flex.Item flex="grow" />
-					<Flex.Item>
-						<Box paddingX={10}>
-							<ConnectButton handlePopoverOpen={handlePopoverOpen} />
-							<AccountPopover
-								isPopoverOpen={isPopoverOpen}
-								onPopoverClose={handlePopoverClose}
-							/>
-						</Box>
-					</Flex.Item>
-				</Flex>
-				<Box paddingY={4}>
-					<Flex gap={4} justifyContent="center" alignItems="start">
-						<Heading size="lg" color="orchid">
-							supply:
-							{' ' + supply}
-						</Heading>
-					</Flex>
-				</Box>
-				<Box paddingY={4}>
-					<Flex gap={4} justifyContent="center" alignItems="start">
-						<TextField
-							disabled
-							type="number"
-							id="amountToMintTextField"
-							onChange={noop}
-							value={value}
-						/>
-						<Button
-							id="mintButton"
-							color="gray"
-							onClick={onMintPressed}
-							text="Mint NFT"
-						/>
-					</Flex>
-				</Box>
+			<Box className="Layout">
+				{/* Header */}
+				<Header />
+				{/* Landing */}
+				<Landing supply={supply} value={value} onMintPressed={onMintPressed} />
 			</Box>
 			<Particles params={PARTICLE_PARAMS} />
 		</>
