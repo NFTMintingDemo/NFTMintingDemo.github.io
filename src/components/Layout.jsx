@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Box, Button, Flex, Heading, Text, TextField } from 'gestalt'
 import Particles from 'react-particles-js'
-import { mintNFT, getTokenSupply } from './utils/interact'
-import PARTICLE_PARAMS from './utils/constants'
-import ConnectButton from './components/ConnectButton'
-import AccountPopover from './components/AccountPopover'
+import { mintNFT, getTokenSupply } from 'utils/interact'
+import PARTICLE_PARAMS from 'utils/constants'
+import ConnectButton from './ConnectButton'
+import AccountPopover from './AccountPopover'
 import { useToast } from '@chakra-ui/react'
 
-const Minter = () => {
+const Layout = () => {
 	const [value] = useState(1)
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 	const toast = useToast()
@@ -102,7 +102,7 @@ const Minter = () => {
 
 	return (
 		<>
-			<Box className="Minter" padding={4}>
+			<Box className="Layout" padding={4}>
 				<Flex justifyContent="end">
 					<Flex.Item>
 						<Heading color="lightGray">project name</Heading>
@@ -149,4 +149,4 @@ const Minter = () => {
 	)
 }
 
-export default Minter
+export default Layout
